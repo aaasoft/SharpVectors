@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
 
 using SharpVectors.Dom.Svg;
+using System.Windows.Media;
 
 namespace SharpVectors.Renderers.Wpf
 {
@@ -11,7 +11,7 @@ namespace SharpVectors.Renderers.Wpf
         {   
         }
 
-        public abstract BitmapSource Visit(SvgImageElement element, 
+        public abstract ImageSource Visit(SvgImageElement element, 
             WpfDrawingContext context);
     }
 }

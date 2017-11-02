@@ -264,19 +264,20 @@ namespace SharpVectors.Renderers.Wpf
 
         private ImageSource GetBitmapSource(SvgImageElement element, WpfDrawingContext context)
         {
-            BitmapSource bitmapSource = this.GetBitmap(element, context);
-            if (bitmapSource == null)
+            ImageSource imageSource = this.GetBitmap(element, context);
+            if (imageSource == null)
             {
-                return bitmapSource;
+                return imageSource;
             }
 
             SvgColorProfileElement colorProfile = (SvgColorProfileElement)element.ColorProfile;
-            if (colorProfile == null)
+            if (colorProfile == null || !(imageSource is BitmapSource))
             {
-                return bitmapSource;
+                return imageSource;
             }
             else
             {
+                BitmapSource bitmapSource = (BitmapSource)imageSource;
                 BitmapFrame bitmapSourceFrame   = BitmapFrame.Create(bitmapSource);
                 ColorContext sourceColorContext = null;
                 IList<ColorContext> colorContexts = bitmapSourceFrame.ColorContexts;
@@ -301,7 +302,7 @@ namespace SharpVectors.Renderers.Wpf
             }
         }
 
-        private BitmapSource GetBitmap(SvgImageElement element, WpfDrawingContext context)
+        private ImageSource GetBitmap(SvgImageElement element, WpfDrawingContext context)
         {
             if (element.IsSvgImage)
             {
@@ -356,7 +357,7 @@ namespace SharpVectors.Renderers.Wpf
                 WpfEmbeddedImageVisitor imageVisitor = context.ImageVisitor;
                 if (imageVisitor != null)
                 {
-                    BitmapSource visitorSource = imageVisitor.Visit(element, context);
+                    ImageSource visitorSource = imageVisitor.Visit(element, context);
                     if (visitorSource != null)
                     {
                         return visitorSource;
